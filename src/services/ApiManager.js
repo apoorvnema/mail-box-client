@@ -22,6 +22,10 @@ class ApiManager {
         const query = ApiEndpoints.getEmailDetail(id);
         return ApiMethods.getMethod(query);
     }
+    static markAsRead = (id) => {
+        const query = ApiEndpoints.markAsRead(id);
+        return ApiMethods.putMethod(query);
+    }
 }
 
 export default ApiManager;

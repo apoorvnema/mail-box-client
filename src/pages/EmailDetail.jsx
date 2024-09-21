@@ -49,6 +49,7 @@ export default EmailDetail;
 const styles = {
     container: {
         padding: '20px',
+        paddingTop: '60px',
     },
     cardStyle: {
         padding: '20px',

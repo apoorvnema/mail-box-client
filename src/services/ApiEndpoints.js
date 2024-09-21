@@ -6,7 +6,8 @@ const ApiEndpoints = {
     login: ()=>(`${baseUrl}/user/login`),
     sendMail: ()=>(`${baseUrl}/mail/send`),
     getInbox: ()=>(`${baseUrl}/mail/inbox`),
-    getEmailDetail: (emailId)=>(`${baseUrl}/mail/inbox/${emailId}`)
+    getEmailDetail: (emailId)=>(`${baseUrl}/mail/inbox/${emailId}`),
+    markAsRead: (id)=>(`${baseUrl}/mail/mark-as-read/${id}`)
 }
 
 export default ApiEndpoints;
