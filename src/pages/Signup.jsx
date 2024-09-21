@@ -7,6 +7,7 @@ import Input from '../components/UI/Input';
 import ApiManager from '../services/apiManager';
 import Loader from '../components/UI/Loader';
 import { useNavigate } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
 
 const Signup = () => {
     const [loading, setLoading] = useState(false)
@@ -26,7 +27,7 @@ const Signup = () => {
     }
 
     const checkValidation = () => {
-        if(form.password !== form.confirmPassword) {
+        if (form.password !== form.confirmPassword) {
             alert("Passwords do not match")
             return true;
         }
@@ -35,7 +36,7 @@ const Signup = () => {
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        if(checkValidation()) return;
+        if (checkValidation()) return;
         try {
             setLoading(true)
             const body = {
@@ -64,20 +65,20 @@ const Signup = () => {
     return (
         <div style={styles.container}>
             {loading && <Loader />}
-            <Card customStyle={styles.cardStyle}>
+            <Card style={styles.cardStyle}>
                 <div style={styles.col1}>
                     <PiMailbox size={48} style={styles.icon} />
                     <h2 style={styles.heading}>Create a React Mail Account</h2>
                     <p style={styles.subheading}>Enter your details</p>
                 </div>
                 <div style={styles.col2}>
-                    <form style={styles.form} onSubmit={handleSignup}>
-                        <Input type="text" placeholder='Name' name="name" style={styles.input} onChange={handleFormChange} value={form.name} required/>
-                        <Input type="email" placeholder='Email' name="email" style={styles.input} onChange={handleFormChange} value={form.email} required/>
-                        <Input type="password" placeholder='Password' name="password" style={styles.input} onChange={handleFormChange} value={form.password} required/>
-                        <Input type="password" placeholder='Confirm Password' name="confirmPassword" style={styles.input} onChange={handleFormChange} value={form.confirmPassword} required/>
+                    <Form style={styles.form} onSubmit={handleSignup}>
+                        <Input type="text" placeholder='Name' name="name" style={styles.input} onChange={handleFormChange} value={form.name} required />
+                        <Input type="email" placeholder='Email' name="email" style={styles.input} onChange={handleFormChange} value={form.email} required />
+                        <Input type="password" placeholder='Password' name="password" style={styles.input} onChange={handleFormChange} value={form.password} required />
+                        <Input type="password" placeholder='Confirm Password' name="confirmPassword" style={styles.input} onChange={handleFormChange} value={form.confirmPassword} required />
                         <Button type='submit' text={"Sign Up"} />
-                    </form>
+                    </Form>
                 </div>
             </Card>
         </div>
@@ -111,7 +112,6 @@ const styles = {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRight: '1px solid #e0e0e0',
     },
     col2: {
         flex: 2,
