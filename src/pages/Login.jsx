@@ -9,13 +9,11 @@ import Loader from '../components/UI/Loader';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 
-const Signup = () => {
+const Login = () => {
     const [loading, setLoading] = useState(false)
     const [form, setForm] = useState({
-        name: '',
         email: '',
         password: '',
-        confirmPassword: ''
     })
     const navigation = useNavigate();
 
@@ -26,17 +24,8 @@ const Signup = () => {
         })
     }
 
-    const checkValidation = () => {
-        if (form.password !== form.confirmPassword) {
-            alert("Passwords do not match")
-            return true;
-        }
-        return false;
-    }
-
-    const handleSignup = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        if (checkValidation()) return;
         try {
             setLoading(true)
             const body = {
@@ -44,9 +33,9 @@ const Signup = () => {
                 password: form.password,
                 returnSecureToken: true
             }
-            const response = await ApiManager.signup(body);
-            alert("Successfully Signed Up")
-            navigation('/login')
+            const response = await ApiManager.login(body);
+            alert("Successfully Logged In")
+            navigation('/')
         }
         catch (error) {
             alert(error.message)
@@ -54,10 +43,8 @@ const Signup = () => {
         finally {
             setLoading(false)
             setForm({
-                name: '',
                 email: '',
                 password: '',
-                confirmPassword: ''
             })
         }
     }
@@ -68,25 +55,23 @@ const Signup = () => {
             <Card style={styles.cardStyle}>
                 <div style={styles.col1}>
                     <PiMailbox size={48} style={styles.icon} />
-                    <h2 style={styles.heading}>Create a React Mail Account</h2>
+                    <h2 style={styles.heading}>Sign in to React Mail Account</h2>
                     <p style={styles.subheading}>Enter your details</p>
                 </div>
                 <div style={styles.col2}>
                     <div style={styles.form}>
-                        <Input type="text" placeholder='Name' name="name" style={styles.input} onChange={handleFormChange} value={form.name} required />
-                        <Input type="email" placeholder='Email' name="email" style={styles.input} onChange={handleFormChange} value={form.email} required />
-                        <Input type="password" placeholder='Password' name="password" style={styles.input} onChange={handleFormChange} value={form.password} required />
-                        <Input type="password" placeholder='Confirm Password' name="confirmPassword" style={styles.input} onChange={handleFormChange} value={form.confirmPassword} required />
-                        <Button type='submit' text={"Sign Up"} onClick={handleSignup} />
+                    <Input type="email" placeholder='Email' name="email" style={styles.input} onChange={handleFormChange} value={form.email} required />
+                    <Input type="password" placeholder='Password' name="password" style={styles.input} onChange={handleFormChange} value={form.password} required />
+                    <Button type='submit' text={"Login"} onClick={handleLogin} />
                     </div>
-                    <p style={styles.text}>Already have an account? <Link to='/login'>Login</Link></p>
                 </div>
+                <p style={styles.text}>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
             </Card>
         </div>
     );
 };
 
-export default Signup;
+export default Login;
 
 const styles = {
     container: {

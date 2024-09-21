@@ -6,6 +6,10 @@ class ApiManager {
         const query = ApiEndpoints.signup();
         return ApiMethods.postMethod(query, body);
     }
+    static login = (body) => {
+        const query = ApiEndpoints.login();
+        return ApiMethods.postMethod(query, body);
+    }
 }
 
 export default ApiManager;
