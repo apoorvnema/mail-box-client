@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux"
 
-const token = localStorage.getItem('token');
+const Headers = () => {
+    let token = localStorage.getItem('token');
 
-const Headers = {
-    Authorization: token
+    return {
+        Authorization: token
+    }
 }
 
 export default Headers;

@@ -14,6 +14,14 @@ class ApiManager {
         const query = ApiEndpoints.sendMail();
         return ApiMethods.postMethod(query, body);
     }
+    static getInbox = () => {
+        const query = ApiEndpoints.getInbox();
+        return ApiMethods.getMethod(query);
+    }
+    static getEmailDetail = (id) => {
+        const query = ApiEndpoints.getEmailDetail(id);
+        return ApiMethods.getMethod(query);
+    }
 }
 
 export default ApiManager;

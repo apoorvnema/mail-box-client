@@ -1,17 +1,26 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import Signup from './pages/Signup'
 import Login from "./pages/Login"
 import Home from "./pages/Home"
+import Sidebar from "./components/Sidebar"
+import Inbox from "./pages/Inbox"
+import EmailDetail from "./pages/EmailDetail"
 
 function App() {
+  const location = useLocation();
 
   return (
-    <Routes>
-      <Route path="/signup" element={<Signup/>}/>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/" element={<Home/>}/>
-      <Route path="*" element={<div>Home</div>}/>
-    </Routes>
+    <>
+      {(location.pathname !== "/signup" && location.pathname !== "/login") && <Sidebar />}
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/inbox" element={<Inbox />}/>
+        <Route path="/inbox/:emailId" element={<EmailDetail />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<div>Home</div>} />
+      </Routes>
+    </>
   )
 }
 

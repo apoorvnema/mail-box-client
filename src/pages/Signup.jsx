@@ -114,7 +114,7 @@ const Signup = () => {
                             value={form.confirmPassword} 
                             required 
                         />
-                        <Button type='submit' text="Login" />
+                        <Button type='submit' text="Signup" />
                     </Form>
                 </div>
                 <p style={styles.text}>

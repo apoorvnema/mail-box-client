@@ -9,7 +9,7 @@ const color = {
     dark: '#333333',
     white: '#FFFFFF',
     black: '#000000',
-    background: '#f0f4f9',
+    background: '#f1f1f1',
     text: '#1F1F1F'
 }
 

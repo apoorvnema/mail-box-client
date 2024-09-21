@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card as BootstrapCard } from 'react-bootstrap';
-import color from '../../constants/Color';
 
 const Card = ({ children, style }) => {
   return (

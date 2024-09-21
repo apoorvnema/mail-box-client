@@ -8,6 +8,8 @@ import ApiManager from '../services/apiManager';
 import Loader from '../components/UI/Loader';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Form } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { authAction } from '../store/auth';
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
@@ -19,6 +21,7 @@ const Login = () => {
     const navigation = useNavigate();
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
+    const dispatch = useDispatch();
 
     const handleFormChange = (e) => {
         setForm({
@@ -53,6 +56,11 @@ const Login = () => {
                 localStorage.setItem('token', response.token);
                 localStorage.setItem('name', response.name);
                 localStorage.setItem('email', response.email);
+                dispatch(authAction.login({
+                    name: response.name,
+                    token: response.token,
+                    email: response.email
+                }));
                 setTimeout(() => {
                     navigation('/');
                 }, 1000);
