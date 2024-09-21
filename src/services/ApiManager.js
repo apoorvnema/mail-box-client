@@ -10,6 +10,10 @@ class ApiManager {
         const query = ApiEndpoints.login();
         return ApiMethods.postMethod(query, body);
     }
+    static sendMail = (body) => {
+        const query = ApiEndpoints.sendMail();
+        return ApiMethods.postMethod(query, body);
+    }
 }
 
 export default ApiManager;

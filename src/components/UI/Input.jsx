@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 
-const Input = ({ type, placeholder, onChange, value, name, required }) => {
+const Input = ({ type, placeholder, onChange, value, name, required, disabled }) => {
   return (
     <Form.Group controlId={name} className="mb-1">
       <Form.Label>{placeholder}</Form.Label>
@@ -12,6 +12,7 @@ const Input = ({ type, placeholder, onChange, value, name, required }) => {
         value={value}
         name={name}
         required={required}
+        disabled={disabled}
       />
       <Form.Control.Feedback type="invalid">
         Please provide a valid {name}.

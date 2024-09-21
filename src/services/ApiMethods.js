@@ -1,4 +1,5 @@
 import axios from "axios"
+import Headers from "./Headers";
 
 class ApiMethods {
     static getMethod = async (url) => {
@@ -12,7 +13,7 @@ class ApiMethods {
 
     static postMethod = async (url, data) => {
         try {
-            const response = await axios.post(url, data)
+            const response = await axios.post(url, data, {headers: Headers})
             return response.data
         } catch (error) {
             throw error.response.data.message;
@@ -21,7 +22,7 @@ class ApiMethods {
 
     static putMethod = async (url, data) => {
         try {
-            const response = await axios.put(url, data)
+            const response = await axios.put(url, data, {headers: Headers})
             return response.data
         } catch (error) {
             throw error.response.data.message;
@@ -30,7 +31,7 @@ class ApiMethods {
 
     static deleteMethod = async (url) => {
         try {
-            const response = await axios.delete(url)
+            const response = await axios.delete(url, {headers: Headers})
             return response.data
         } catch (error) {
             throw error.response.data.message;

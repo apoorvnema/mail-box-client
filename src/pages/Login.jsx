@@ -51,6 +51,8 @@ const Login = () => {
                 const response = await ApiManager.login(body);
                 setMessage("Successfully Signed Up");
                 localStorage.setItem('token', response.token);
+                localStorage.setItem('name', response.name);
+                localStorage.setItem('email', response.email);
                 setTimeout(() => {
                     navigation('/');
                 }, 1000);

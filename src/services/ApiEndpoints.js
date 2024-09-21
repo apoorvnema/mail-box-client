@@ -1,10 +1,10 @@
-const authUrl = import.meta.env.VITE_AUTH_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 
 const ApiEndpoints = {
-    signup: ()=>(`${authUrl}/user/signup`),
-    login: ()=>(`${authUrl}/user/login`),
-    database: ()=>(`${authUrl}`)
+    signup: ()=>(`${baseUrl}/user/signup`),
+    login: ()=>(`${baseUrl}/user/login`),
+    sendMail: ()=>(`${baseUrl}/mail/send`)
 }
 
 export default ApiEndpoints;
