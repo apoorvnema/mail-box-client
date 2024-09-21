@@ -6,7 +6,7 @@ class ApiMethods {
             const response = await axios.get(url)
             return response.data
         } catch (error) {
-            throw error.response.data.error;
+            throw error.response.data.message;
         }
     }
 
@@ -15,7 +15,7 @@ class ApiMethods {
             const response = await axios.post(url, data)
             return response.data
         } catch (error) {
-            throw error.response.data.error;
+            throw error.response.data.message;
         }
     }
 
@@ -24,7 +24,7 @@ class ApiMethods {
             const response = await axios.put(url, data)
             return response.data
         } catch (error) {
-            throw error.response.data.error;
+            throw error.response.data.message;
         }
     }
 
@@ -33,7 +33,7 @@ class ApiMethods {
             const response = await axios.delete(url)
             return response.data
         } catch (error) {
-            throw error.response.data.error;
+            throw error.response.data.message;
         }
     }
 }

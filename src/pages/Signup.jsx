@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '../components/UI/Card';
 import { PiMailbox } from "react-icons/pi";
 import color from '../constants/Color';
@@ -7,60 +7,65 @@ import Input from '../components/UI/Input';
 import ApiManager from '../services/apiManager';
 import Loader from '../components/UI/Loader';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
+import { Alert, Form } from 'react-bootstrap';
 
 const Signup = () => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         name: '',
         email: '',
         password: '',
         confirmPassword: ''
-    })
+    });
+    const [validated, setValidated] = useState(false);
     const navigation = useNavigate();
+    const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
 
     const handleFormChange = (e) => {
         setForm({
             ...form,
             [e.target.name]: e.target.value
-        })
-    }
+        });
+    };
 
-    const checkValidation = () => {
-        if (form.password !== form.confirmPassword) {
-            alert("Passwords do not match")
-            return true;
-        }
-        return false;
-    }
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setError(null);
+            setMessage(null);
+        }, 1000);
+        
+        return () => clearTimeout(timer);
+    }, [error, message]);
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        if (checkValidation()) return;
-        try {
-            setLoading(true)
-            const body = {
-                email: form.email,
-                password: form.password,
-                returnSecureToken: true
+        const formElement = e.currentTarget;
+        if (formElement.checkValidity() === false) {
+            e.stopPropagation();
+        } else {
+            try {
+                setLoading(true);
+                const body = {
+                    name: form.name,
+                    email: form.email,
+                    password: form.password,
+                };
+                const response = await ApiManager.signup(body);
+                setMessage("Successfully Signed Up");
+                setTimeout(() => {
+                    navigation('/login');
+                }, 1000);
             }
-            const response = await ApiManager.signup(body);
-            alert("Successfully Signed Up")
-            navigation('/login')
+            catch (error) {
+                setError(error);
+            }
+            finally {
+                setLoading(false);
+            }
         }
-        catch (error) {
-            alert(error.message)
-        }
-        finally {
-            setLoading(false)
-            setForm({
-                name: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            })
-        }
-    }
+        setValidated(true);
+    };
 
     return (
         <div style={styles.container}>
@@ -68,20 +73,56 @@ const Signup = () => {
             <Card style={styles.cardStyle}>
                 <div style={styles.col1}>
                     <PiMailbox size={48} style={styles.icon} />
-                    <h2 style={styles.heading}>Create a React Mail Account</h2>
+                    <h2 style={styles.heading}>Create your React Mail Account</h2>
                     <p style={styles.subheading}>Enter your details</p>
                 </div>
                 <div style={styles.col2}>
-                    <div style={styles.form}>
-                        <Input type="text" placeholder='Name' name="name" style={styles.input} onChange={handleFormChange} value={form.name} required />
-                        <Input type="email" placeholder='Email' name="email" style={styles.input} onChange={handleFormChange} value={form.email} required />
-                        <Input type="password" placeholder='Password' name="password" style={styles.input} onChange={handleFormChange} value={form.password} required />
-                        <Input type="password" placeholder='Confirm Password' name="confirmPassword" style={styles.input} onChange={handleFormChange} value={form.confirmPassword} required />
-                        <Button type='submit' text={"Sign Up"} onClick={handleSignup} />
-                    </div>
-                    <p style={styles.text}>Already have an account? <Link to='/login'>Login</Link></p>
+                    <Form noValidate validated={validated} onSubmit={handleSignup} style={styles.form}>
+                        <Input 
+                            type="text" 
+                            placeholder="Name" 
+                            name="name" 
+                            style={styles.input} 
+                            onChange={handleFormChange} 
+                            value={form.name} 
+                            required 
+                        />
+                        <Input 
+                            type="email" 
+                            placeholder="Email" 
+                            name="email" 
+                            style={styles.input} 
+                            onChange={handleFormChange} 
+                            value={form.email} 
+                            required 
+                        />
+                        <Input 
+                            type="password" 
+                            placeholder="Password" 
+                            name="password" 
+                            style={styles.input} 
+                            onChange={handleFormChange} 
+                            value={form.password} 
+                            required 
+                        />
+                        <Input 
+                            type="password" 
+                            placeholder="Confirm Password" 
+                            name="confirmPassword" 
+                            style={styles.input} 
+                            onChange={handleFormChange} 
+                            value={form.confirmPassword} 
+                            required 
+                        />
+                        <Button type='submit' text="Login" />
+                    </Form>
                 </div>
+                <p style={styles.text}>
+                    Already have a account? <Link to='/login'>Login</Link>
+                </p>
             </Card>
+            {error && <Alert variant='danger' style={styles.alert}>{error}</Alert>}
+            {message && <Alert variant='success' style={styles.alert}>{message}</Alert>}
         </div>
     );
 };
@@ -95,11 +136,12 @@ const styles = {
         alignItems: 'center',
         height: '100vh',
         backgroundColor: '#f1f1f1',
+        position: 'relative'
     },
     cardStyle: {
         display: 'flex',
         flexDirection: 'row',
-        padding: '40px',
+        padding: '20px 40px',
         maxWidth: '800px',
         width: '100%',
         borderRadius: '12px',
@@ -142,5 +184,11 @@ const styles = {
     text: {
         textAlign: 'center',
         marginTop: '10px'
+    },
+    alert: {
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        zIndex: '1000'
     }
 };
