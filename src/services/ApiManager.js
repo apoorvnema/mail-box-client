@@ -26,6 +26,10 @@ class ApiManager {
         const query = ApiEndpoints.markAsRead(id);
         return ApiMethods.putMethod(query);
     }
+    static deleteMail = (id) => {
+        const query = ApiEndpoints.deleteMail(id);
+        return ApiMethods.deleteMethod(query);
+    }
 }
 
 export default ApiManager;
