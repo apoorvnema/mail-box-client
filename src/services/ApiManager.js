@@ -18,8 +18,8 @@ class ApiManager {
         const query = ApiEndpoints.getInbox();
         return ApiMethods.getMethod(query);
     }
-    static getEmailDetail = (id) => {
-        const query = ApiEndpoints.getEmailDetail(id);
+    static getMailDetail = (id) => {
+        const query = ApiEndpoints.getMailDetail(id);
         return ApiMethods.getMethod(query);
     }
     static markAsRead = (id) => {
@@ -29,6 +29,14 @@ class ApiManager {
     static deleteMail = (id) => {
         const query = ApiEndpoints.deleteMail(id);
         return ApiMethods.deleteMethod(query);
+    }
+    static getSent = () => {
+        const query = ApiEndpoints.getSent();
+        return ApiMethods.getMethod(query);
+    }
+    static getSentMailDetail = (id) => {
+        const query = ApiEndpoints.getSentMailDetail(id);
+        return ApiMethods.getMethod(query);
     }
 }
 

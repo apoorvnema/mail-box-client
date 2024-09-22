@@ -69,6 +69,7 @@ const Home = () => {
                 };
                 const response = await ApiManager.sendMail(body);
                 setMessage("Successfully Send Mail");
+                setTimeout(() => navigation('/sent'), 1000);
             }
             catch (error) {
                 setError(error);

@@ -6,12 +6,10 @@ import ApiManager from '../services/apiManager';
 import Loader from '../components/UI/Loader';
 import Alert from 'react-bootstrap/Alert';
 import color from '../constants/Color';
-import { GoDotFill } from "react-icons/go";
 import { MdDeleteForever } from "react-icons/md";
 
-const Inbox = () => {
+const SentBox = () => {
   const [mails, setMails] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -31,9 +29,8 @@ const Inbox = () => {
     const fetchMails = async () => {
       try {
         setLoading(true);
-        const response = await ApiManager.getInbox();
-        setMails(response.mailsWithSenders);
-        setUnreadCount(response.unreadCount);
+        const response = await ApiManager.getSent();
+        setMails(response);
       }
       catch (error) {
         setError(error.message);
@@ -45,24 +42,11 @@ const Inbox = () => {
   }, []);
 
   const handleEmailClick = async (id) => {
-    try {
-      setLoading(true);
-      await ApiManager.markAsRead(id);
-    } catch (error) {
-      setError(error.message);
-    }
-    setLoading(false);
-    setMails(prevMails =>
-      prevMails.map(mail =>
-        mail._id === id ? { ...mail, read: true } : mail
-      )
-    );
-    navigate(`/inbox/${id}`, { state: { mode: location.pathname } });
+    navigate(`/sent/${id}`, { state: { mode: location.pathname } });
   };
 
   const handleDeleteMail = async (e, id) => {
     e.stopPropagation();
-    console.log(id);
     try {
       setLoading(true);
       const res = await ApiManager.deleteMail(id);
@@ -79,15 +63,14 @@ const Inbox = () => {
       {loading && <Loader />}
       {error && <Alert style={styles.alert} variant="danger">{error}</Alert>}
       {message && <Alert style={styles.alert} variant="success">{message}</Alert>}
-      <h2 style={{ marginLeft: 40 }}>Inbox ({unreadCount})</h2>
+      <h2 style={{ marginLeft: 40 }}>Sent</h2>
       <ListGroup>
         {mails.map(email => (
           <ListGroup.Item key={email._id} onClick={() => handleEmailClick(email._id)} style={styles.emailItem}>
             <Card style={styles.cardStyle}>
               <h5>{email.subject}</h5>
-              <p>From: {email.sender}</p>
+              <p>To: {email.recipient}</p>
               <p dangerouslySetInnerHTML={{ __html: email.body.slice(0, 100) }} />
-              {email?.read === false && <GoDotFill style={styles.read} size={24} />}
               <MdDeleteForever style={styles.delete} size={24} onClick={(e) => handleDeleteMail(e, email._id)} />
             </Card>
           </ListGroup.Item>
@@ -97,7 +80,7 @@ const Inbox = () => {
   );
 };
 
-export default Inbox;
+export default SentBox;
 
 const styles = {
   container: {
@@ -111,12 +94,6 @@ const styles = {
   cardStyle: {
     position: 'relative',
     padding: '10px',
-  },
-  read: {
-    position: 'absolute',
-    top: '50%',
-    right: '2%',
-    color: color.primary
   },
   delete: {
     position: 'absolute',
